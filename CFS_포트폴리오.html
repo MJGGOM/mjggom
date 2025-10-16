@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>물류 운영 혁신 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Ocean Blue & Soft Grey (Blue-600, Stone-50) -->
+    <!-- Application Structure Plan: The application uses a Tab-based dashboard structure. Section 1 (Summary) provides the high-level quantitative impact with large stat cards. Section 2 (Projects) allows users to explore the detailed methodology (P/S/R) behind the 10 initiatives via an interactive modal system. Section 3 (Metrics) uses Chart.js to visualize the before-and-after improvements from the Metrics Table, offering analytical proof. This structure prioritizes scannability, exploration depth, and data-driven proof, moving logically from 'What' to 'How' to 'Proof'. -->
+    <!-- Visualization & Content Choices: 
+        - High-level metrics: Large Stat Cards (HTML/Tailwind) for immediate visual impact.
+        - 10 Key Projects: Interactive Cards and a Modal (HTML/JS) for detailed drill-down without page clutter.
+        - Metrics Table Comparison: Chart.js Horizontal Bar Chart for effective before/after comparison across six key operational areas.
+        - Workforce Fatigue/Satisfaction: Chart.js Doughnut Charts to highlight percentage improvements in critical human factors.
+        - All content is segmented and presented with clear context within the designed tabbed structure. Confirms NO SVG/Mermaid.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f9fafb; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; padding: 16px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .tab-button.active { border-color: #2563eb; color: #2563eb; background-color: #eff6ff; }
+        .modal { display: none; }
+        .modal.open { display: flex; }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <header class="bg-blue-600 shadow-xl">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-white">Logistics Operations & Workforce Management Specialist</h1>
+            <p class="text-blue-200 mt-1">야드 운영 혁신 및 인력 최적화 전문가 (2022.11~2024.08)</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        
+        <div class="mb-8 border-b border-gray-200">
+            <nav class="flex space-x-2 md:space-x-4 -mb-px" role="tablist">
+                <button onclick="showTab('summary')" id="tab-summary" class="tab-button active inline-flex items-center justify-center p-3 border-b-2 font-medium text-sm md:text-base border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition" role="tab" aria-controls="content-summary" aria-selected="true">
+                    &#128200; 주요 성과 요약 (Summary)
+                </button>
+                <button onclick="showTab('projects')" id="tab-projects" class="tab-button inline-flex items-center justify-center p-3 border-b-2 font-medium text-sm md:text-base border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition" role="tab" aria-controls="content-projects" aria-selected="false">
+                    &#128220; 10대 핵심 프로젝트
+                </button>
+                <button onclick="showTab('metrics')" id="tab-metrics" class="tab-button inline-flex items-center justify-center p-3 border-b-2 font-medium text-sm md:text-base border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition" role="tab" aria-controls="content-metrics" aria-selected="false">
+                    &#128202; 데이터 검증 (Deep Dive)
+                </button>
+            </nav>
+        </div>
+
+        <!-- 1. 주요 성과 요약 (Summary Tab) -->
+        <div id="content-summary" class="tab-content">
+            <p class="text-lg text-stone-600 mb-8">
+                본 섹션은 물류 운영 및 인력 최적화 전문가로서 달성한 핵심 성과를 숫자로 요약하여 보여줍니다. 야드 운영 전반의 효율성, 안전, 그리고 작업자 만족도 향상이라는 세 가지 목표 아래 달성된 정량적 성과들을 확인하실 수 있습니다.
+            </p>
+            <h3 class="text-2xl font-bold mb-6 text-blue-600">Top Impact Summary</h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+                <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition">
+                    <p class="text-sm font-semibold text-gray-500">작업자 피로도 감소</p>
+                    <p class="text-3xl font-extrabold text-blue-600 mt-1">30% ↓</p>
+                    <p class="text-xs text-gray-400">유연 스케줄 제안</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
+                    <p class="text-sm font-semibold text-gray-500">작업 공간 활용도 향상</p>
+                    <p class="text-3xl font-extrabold text-green-600 mt-1">40% ↑</p>
+                    <p class="text-xs text-gray-400">P-BOX/파렛트 재배치</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-red-500 hover:shadow-lg transition">
+                    <p class="text-sm font-semibold text-gray-500">하차 오류율 감소</p>
+                    <p class="text-3xl font-extrabold text-red-600 mt-1">40% ↓</p>
+                    <p class="text-xs text-gray-400">5단계 가이드라인 도입</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border-l-4 border-yellow-500 hover:shadow-lg transition">
+                    <p class="text-sm font-semibold text-gray-500">대형 차량 관련 사고</p>
+                    <p class="text-3xl font-extrabold text-stone-600 mt-1">0 건</p>
+                    <p class="text-xs text-gray-400">안전 프로토콜 강화</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="chart-container">
+                    <canvas id="satisfactionChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="workloadChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2. 10대 핵심 프로젝트 (Projects Tab) -->
+        <div id="content-projects" class="tab-content hidden">
+            <p class="text-lg text-stone-600 mb-8">
+                10가지 핵심 프로젝트는 인력 최적화, 공간 리소스 매핑, 안전 표준화 등 운영 전반에 걸친 구체적인 혁신 사례입니다. 각 프로젝트 카드를 클릭하여 '문제점 - 해결 방안 - 결과'의 혁신 사이클을 확인하실 수 있습니다.
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project Cards (10) -->
+                <div onclick="openProjectModal(1)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-blue-400">
+                    <h4 class="font-bold text-lg mb-1">1. 근무자 스케줄 최적화</h4>
+                    <p class="text-sm text-stone-500">워라밸 개선 및 리소스 낭비 해결</p>
+                    <span class="text-xs text-blue-600 font-semibold mt-2 inline-block">성과: 처리량 50% ↑, 활용도 35% ↑</span>
+                </div>
+                <div onclick="openProjectModal(2)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-green-400">
+                    <h4 class="font-bold text-lg mb-1">2. 6F DOCK 공간 리소스 매핑</h4>
+                    <p class="text-sm text-stone-500">DOCK 사용 혼선 해결 및 안전 증대</p>
+                    <span class="text-xs text-green-600 font-semibold mt-2 inline-block">성과: DOCK 효율 25% ↑, 사고 100% ↓</span>
+                </div>
+                <div onclick="openProjectModal(3)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-blue-400">
+                    <h4 class="font-bold text-lg mb-1">3. 야외 근무자 워라밸 시스템</h4>
+                    <p class="text-sm text-stone-500">고정 휴무 미반영 문제 해결</p>
+                    <span class="text-xs text-blue-600 font-semibold mt-2 inline-block">성과: 팀 만족도 85% 달성</span>
+                </div>
+                <div onclick="openProjectModal(4)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-red-400">
+                    <h4 class="font-bold text-lg mb-1">4. IB 하차 프로세스 표준화</h4>
+                    <p class="text-sm text-stone-500">납품 지연 및 작업자-기사 충돌 해결</p>
+                    <span class="text-xs text-red-600 font-semibold mt-2 inline-block">성과: 하차 시간 20% ↓, 오류 90% ↓</span>
+                </div>
+                <div onclick="openProjectModal(5)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-stone-400">
+                    <h4 class="font-bold text-lg mb-1">5. 납품 업체 협업 시스템 구축</h4>
+                    <p class="text-sm text-stone-500">혼잡 시간대 중복 납품/회송 정체 해결</p>
+                    <span class="text-xs text-stone-600 font-semibold mt-2 inline-block">성과: 준수율 95% 달성, 분쟁 100% 해결</span>
+                </div>
+                <div onclick="openProjectModal(6)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-green-400">
+                    <h4 class="font-bold text-lg mb-1">6. 간선 차량 배치 최적화</h4>
+                    <p class="text-sm text-stone-500">간선 차량 동시 입차로 인한 야드 포화</p>
+                    <span class="text-xs text-green-600 font-semibold mt-2 inline-block">성과: 처리 시간 30% ↓, 혼잡도 15% ↓</span>
+                </div>
+                <div onclick="openProjectModal(7)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-blue-400">
+                    <h4 class="font-bold text-lg mb-1">7. 6F 야드 공간 최적화</h4>
+                    <p class="text-sm text-stone-500">P-BOX 적재 포화 및 안전 위험 증가</p>
+                    <span class="text-xs text-blue-600 font-semibold mt-2 inline-block">성과: 활용도 40% ↑, 사고 0건 달성</span>
+                </div>
+                <div onclick="openProjectModal(8)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-red-400">
+                    <h4 class="font-bold text-lg mb-1">8. 야드 작업 흐름 개선</h4>
+                    <p class="text-sm text-stone-500">IB/OB 동시 처리 불가 병목 현상</p>
+                    <span class="text-xs text-red-600 font-semibold mt-2 inline-block">성과: 처리 속도 35% ↑, 지연 시간 50% ↓</span>
+                </div>
+                <div onclick="openProjectModal(9)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-stone-400">
+                    <h4 class="font-bold text-lg mb-1">9. 지게차 안전 관리 강화</h4>
+                    <p class="text-sm text-stone-500">시동/브레이크 미체결 사고 위험</p>
+                    <span class="text-xs text-stone-600 font-semibold mt-2 inline-block">성과: 사고 0건 달성, 만족도 20% ↑</span>
+                </div>
+                <div onclick="openProjectModal(10)" class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-200 cursor-pointer border-t-4 border-green-400">
+                    <h4 class="font-bold text-lg mb-1">10. DOCK 운영 효율화</h4>
+                    <p class="text-sm text-stone-500">차량 혼잡 및 IB/OB 차량 충돌</p>
+                    <span class="text-xs text-green-600 font-semibold mt-2 inline-block">성과: 대기 시간 25% ↓</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 데이터 검증 (Metrics Deep Dive Tab) -->
+        <div id="content-metrics" class="tab-content hidden">
+            <p class="text-lg text-stone-600 mb-8">
+                2023년 1월 대비 12월의 핵심 지표 변화를 시각화한 데이터입니다. 정량화된 지표를 통해 인력 관리, 공간 활용, 프로세스 표준화 등 전반적인 운영 혁신의 효과를 확인할 수 있습니다.
+            </p>
+            <div class="chart-container w-full md:max-w-4xl h-[600px] md:h-[500px] mx-auto">
+                <canvas id="metricsComparisonChart"></canvas>
+            </div>
+        </div>
+
+    </main>
+    
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal fixed inset-0 z-50 bg-black bg-opacity-50 items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 id="modalTitle" class="text-2xl font-bold text-blue-600"></h3>
+                <button onclick="closeProjectModal()" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-bold text-lg border-l-4 border-red-500 pl-3 mb-2">문제점 (Problem)</h4>
+                    <p id="modalProblem" class="text-stone-700 bg-red-50 p-3 rounded-lg"></p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg border-l-4 border-green-500 pl-3 mb-2">해결 방안 (Solution)</h4>
+                    <p id="modalSolution" class="text-stone-700 bg-green-50 p-3 rounded-lg"></p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg border-l-4 border-blue-500 pl-3 mb-2">결과 (Result)</h4>
+                    <p id="modalResult" class="text-stone-700 bg-blue-50 p-3 rounded-lg font-semibold"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        const projectData = [
+            { id: 1, title: '근무자 스케줄 최적화 프로젝트', problem: '토요일 1인 근무로 인한 과도한 업무 부담 및 월요일 지게차 유휴 시간 증가.', solution: '데이터 기반(입고량/부자재량 분석) 목~토요일 인력 집중 배치 및 피로도 관리 시스템(5일 연속 근무 금지, 휴무 분산 배치) 도입.', result: '토요일 작업 처리량 50% 향상, 월요일 리소스 활용도 35% 개선.' },
+            { id: 2, title: '6F DOCK 공간 리소스 매핑', problem: '복잡한 차량 유형으로 인한 DOCK 사용 혼선 및 드라이아이스 보관함 위치 비효율성.', solution: 'Excel 기반 실시간 레이아웃 관리 도입 (IB/OB/HUB 전용 구역 지정) 및 드라이아이스 보관함 재배치로 작업 공간 확보.', result: 'DOCK 활용 효율 25% 향상, 차량 이동 관련 사고 100% 감소.' },
+            { id: 3, title: '야외 근무자 워라밸 시스템 구축', problem: '고정 휴무 미반영으로 인한 팀 불만족도 증가 및 피크타임 인력 부족.', solution: '개인별 희망 휴무 1~2일 반영 시나리오 제시 및 입고량 데이터 기반 유동적 스케줄 조정. 목~토요일 숙련자 필수 배치 전략.', result: '팀 만족도 85% 달성, 피크타임 작업 지연 60% 감소.' },
+            { id: 4, title: 'IB 하차 프로세스 표준화', problem: '서류 미비, 온도 기준 위반으로 인한 납품 지연 및 하차 순서 불명확으로 인한 충돌.', solution: '5단계 하차 가이드라인 제작 (서류→전산→하차→검수→회송 관리) 및 온도 기준 시각화. 차량 유형별 대기 구역 지정.', result: '하차 시간 20% 단축, 온도 위반 사례 90% 감소.' },
+            { id: 5, title: '납품 업체 협업 시스템 구축', problem: '고정 업체 차량 스케줄 불명확으로 인한 혼잡 시간대 중복 납품 및 회송 거부로 인한 작업장 정체.', solution: '주요 20+ 업체 차량번호/담당자 정보 데이터화 및 주간 스케줄 사전 공유. 회송 거부 프로토콜 수립.', result: '업체 납품 준수율 95% 달성, 회송 관련 분쟁 100% 해결.' },
+            { id: 6, title: '간선 차량 배치 최적화', problem: '5대 간선 차량 동시 입차로 인한 야드 포화 및 점심시간대 하차 작업 지연.', solution: '시간대별 라인 지정 (12시/15시 도착 차량 분리 배치) 및 Swing 조와의 협업을 통한 17:45 이후 도착 차량 이관.', result: '간선 차량 처리 시간 30% 단축, 야드 혼잡도 15% 감소.' },
+            { id: 7, title: '6F 야드 공간 최적화 프로젝트', problem: 'P-BOX 60개 이상 적재로 작업 공간 포화 및 대형 차량 초과 대기로 안전 위험 증가.', solution: 'P-BOX 1층 야적장 이동으로 6F 작업 공간 확보. 대형 차량 4~5층 분산 배치 및 OB 차량 DOCK 전용화(16, 18번).', result: '작업 공간 활용도 40% 개선, 대형 차량 관련 사고 0건 달성.' },
+            { id: 8, title: '야드 작업 흐름 개선', problem: 'IB/OB 차량 동시 처리 불가로 인한 병목 현상 및 6층 DOCK 부족.', solution: '부자재 차량 오후조 인계. 5층 DOCK 활용 및 엘리베이터 이동 시스템 도입. HUB 차량 시간대 조절.', result: '차량 처리 속도 35% 향상, 업무 지연 시간 50% 단축.' },
+            { id: 9, title: '지게차 안전 관리 강화', problem: '지게차 시동/사이드브레이크 미 체결로 인한 사고 위험 및 혼잡 시간대 지게차 교체 불가.', solution: 'EHS 교육 주간별 시행. 안전 구역에서의 지게차 교체 프로토콜 도입.', result: '지게차 관련 사고 0건 달성, 작업자 만족도 20% 향상.' },
+            { id: 10, title: 'DOCK 운영 효율화 프로젝트', problem: '13/16번 DOCK 차량 혼잡 및 IB/OB 차량 간 충돌. 특정 시간대 차량 포화.', solution: 'DOCK 사용 시간대 재배치 (14번 DOCK 16:00 이후 고정). 차량 유형별 전용 DOCK 지정 및 5F 신호수 추가 배치.', result: '차량 대기 시간 25% 단축.' }
+        ];
+
+        const metricsData = {
+            labels: ['회송 분쟁 건수 (건)', '간선 차량 처리 시간 (분)', '업체 준수율 (%)', '하차 오류율 (%)', 'DOCK 활용 효율 (%)', '주간 작업량 편차 (%)'],
+            start: [12, 90, 70, 25, 60, 45],
+            end: [0, 30, 95, 5, 85, 15]
+        };
+
+        let metricsChartInstance = null;
+        let satisfactionChartInstance = null;
+        let workloadChartInstance = null;
+        
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+            
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            if (tabId === 'metrics' && !metricsChartInstance) {
+                renderMetricsChart();
+            }
+            if (tabId === 'summary' && !satisfactionChartInstance) {
+                renderSummaryCharts();
+            }
+        }
+
+        function openProjectModal(projectId) {
+            const project = projectData.find(p => p.id === projectId);
+            if (!project) return;
+            
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalProblem').textContent = project.problem;
+            document.getElementById('modalSolution').textContent = project.solution;
+            document.getElementById('modalResult').textContent = project.result;
+            document.getElementById('projectModal').classList.add('open');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.remove('open');
+        }
+
+        function renderMetricsChart() {
+            const ctx = document.getElementById('metricsComparisonChart').getContext('2d');
+            if (metricsChartInstance) {
+                metricsChartInstance.destroy();
+            }
+            
+            metricsChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: metricsData.labels,
+                    datasets: [
+                        {
+                            label: '개선 전 (2023.01)',
+                            data: metricsData.start,
+                            backgroundColor: 'rgba(209, 213, 219, 0.8)',
+                            borderColor: 'rgb(209, 213, 219)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '개선 후 (2023.12)',
+                            data: metricsData.end,
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: {
+                            display: true,
+                            text: '핵심 지표 비교 (2023.01 vs 2023.12)',
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed.x + ' ' + metricsData.labels[context.dataIndex].match(/\(([^)]+)\)/)[1];
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '값'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderSummaryCharts() {
+            // 야드 작업자 만족도 향상
+            const satCtx = document.getElementById('satisfactionChart').getContext('2d');
+            if (satisfactionChartInstance) satisfactionChartInstance.destroy();
+            satisfactionChartInstance = new Chart(satCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['만족도 달성', '추가 목표'],
+                    datasets: [{
+                        data: [85, 15],
+                        backgroundColor: ['#2563eb', '#d1d5db'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: '야외 근무자 팀 만족도 (85% 달성)', font: { size: 14 } }
+                    },
+                    cutout: '75%',
+                    animation: { animateRotate: true, animateScale: true }
+                }
+            });
+
+            // 주간 작업량 편차 개선
+            const workCtx = document.getElementById('workloadChart').getContext('2d');
+            if (workloadChartInstance) workloadChartInstance.destroy();
+            workloadChartInstance = new Chart(workCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['개선 전 편차 (45%)', '개선 후 편차 (15%)'],
+                    datasets: [{
+                        label: '주간 작업량 편차',
+                        data: [45, 15],
+                        backgroundColor: ['#fef3c7', '#4ade80'],
+                        borderColor: ['#f59e0b', '#16a34a'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: '주간 작업량 편차 개선 (40% 개선)', font: { size: 14 } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 50 },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('summary');
+            document.getElementById('projectModal').addEventListener('click', (e) => {
+                if (e.target.id === 'projectModal') {
+                    closeProjectModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
